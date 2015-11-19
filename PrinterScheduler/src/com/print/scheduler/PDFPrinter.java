@@ -13,18 +13,17 @@ import java.awt.image.BufferedImage;
 import java.awt.print.PageFormat;
 import java.awt.print.Printable;
 import java.awt.print.PrinterException;
-import java.awt.print.PrinterJob;
-
-import javax.print.attribute.*;
-import javax.print.attribute.standard.MediaPrintableArea;
-
-
 
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 
 import pdftron.Common.PDFNetException;
-import pdftron.PDF.*;
+import pdftron.PDF.PDFDoc;
+import pdftron.PDF.PDFDraw;
+import pdftron.PDF.PDFNet;
+import pdftron.PDF.PageSet;
+import pdftron.PDF.Print;
+import pdftron.PDF.PrinterMode;
 
 /// The following sample illustrates how to print PDF document using currently selected
 /// default printer. 
@@ -129,11 +128,12 @@ public class PDFPrinter implements Printable
       new PDFPrinter();
   }*/
   
-  public void doPrint(String filePath) throws PDFNetException{
+  public void doPrint(String filePath,String printerName) throws PDFNetException{
 	  try
       {
 		  log.info("Inside print method....");
           PDFNet.initialize();
+          
           log.info("file path"+filePath);
           doc = new PDFDoc(filePath); 
           log.info("File Name" +doc.getFileName());
@@ -142,12 +142,15 @@ public class PDFPrinter implements Printable
           PrinterMode printerMode = new PrinterMode();
           printerMode.setCollation(true);
           printerMode.setCopyCount(1);
+          
           printerMode.setDPI(300); // regardless of ordering, an explicit DPI setting overrides the OutputQuality setting
           printerMode.setDuplexing(PrinterMode.e_Duplex_Auto);
           printerMode.setOutputColor(PrinterMode.e_OutputColor_Grayscale);
           printerMode.setOutputQuality(PrinterMode.e_OutputQuality_Medium);
           PageSet pagesToPrint = new PageSet(1, doc.getPageCount(), PageSet.e_all);
-          Print.startPrintJob(doc, "", "soluship.pdf", "", pagesToPrint, printerMode, null);
+          log.info("Submit job to Printer "+printerName );
+          Print.startPrintJob(doc, printerName, "soluship.pdf", "", pagesToPrint, printerMode, null);
+          
       } 
       catch (PDFNetException e) 
       {
