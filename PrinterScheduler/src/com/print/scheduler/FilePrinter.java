@@ -18,7 +18,7 @@ public class FilePrinter extends Thread {
 	private static final Logger log = LogManager.getLogger(FilePrinter.class);
 	private static Properties propertyLocation = PropertyReader.getInstance()
 			.getFileLocation();
-	static String fileFormat =  propertyLocation.getProperty("PRINT_FILE_FORMAT");
+	static String fileFormat =  PrinterConstants.PRINT_FILE_FORMAT;
 	private static Properties printerConfig;
 	String propertyFormat ="properties";
 	String sourceFileLocation=  propertyLocation.getProperty(
@@ -62,7 +62,7 @@ public class FilePrinter extends Thread {
 		String outFileName = null;
 		String outFolder = "";
 		if (file != null) {
-			outFolder = desLocation+"\\"+propertyLocation.getProperty("PROCESSED_DIRECTORY");
+			outFolder = desLocation+"\\"+PrinterConstants.PROCESSED_DIRECTORY;
 			String fileOldName = file.getName().replace("." + fileFormat, "");
 			String date = new SimpleDateFormat("-MM-dd-yyyy HH-mm-ss")
 					.format(new Date());
@@ -142,13 +142,13 @@ public class FilePrinter extends Thread {
 						for (String directoryName1 : subNote1) {
 							
 							if (!directoryName1.equalsIgnoreCase(propertyLocation.getProperty("PROCESSED_DIRECTORY"))) {
-								if(propertyLocation.getProperty("INVOICE_DIRECTORY").equalsIgnoreCase(directoryName1)){
+								if(PrinterConstants.INVOICE_DIRECTORY.equalsIgnoreCase(directoryName1)){
 									printerName = setting.getInvoicePrinterName();
 								}
-								if(propertyLocation.getProperty("LABEL_4_6_DIRECTORY").equalsIgnoreCase(directoryName1)){
+								if(PrinterConstants.LABEL_4_6_DIRECTORY.equalsIgnoreCase(directoryName1)){
 									printerName = setting.getLabel_4_6_PrinterName();
 								}
-								if(propertyLocation.getProperty("LABEL_8_11_DIRECTORY").equalsIgnoreCase(directoryName1)){
+								if(PrinterConstants.LABEL_8_11_DIRECTORY.equalsIgnoreCase(directoryName1)){
 									printerName = setting.getLabel_8_11_PrinterName();
 								}
 								String subDirLoc1 = subDirLoc + "\\"+ directoryName1;
